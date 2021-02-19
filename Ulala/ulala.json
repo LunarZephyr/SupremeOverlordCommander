@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ulala-299523",
+  "private_key_id": "1c698a8764b27e7d15769fa3c8414ca5876a6ccf",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDfx4jfQETguT/2\nFSgGvROaslXkBr/RpZlAVEARs03VY4hIPaRRqkuYKtRiCve0OiXtj4ymeFt6FUa1\nJAItCiDtOSTP2oQ1gbwEnCzhpCvfoenuLY80NpJbYmdxRezKG4HHXrf+HlbuiiBz\nRpZF0dpJS8vt+u2MS8Gk1gLHnlozVEGeiB2wOPWvoGft/BuYt4Mcon3VjKeweDas\nRppYa7aQtvv4utiZDrqtgY3uyNOvjcnpZFC2BfKXv4xsMmuQx0aaVJyFL98kE91L\nblbrINc45IDKo978wVbMBFW61+YLZi6Vm8zLDdti96jeMSawHIPcV691Mj153h3k\nUht8jwbhAgMBAAECggEADAqaIF0+d5MwUGcSCM7Ky8O14HfGgZr2FKKT8f/ie82H\ny09Z1LUjrTP8yqvJaW7JlK9pQ5ntXjPf4qZl4ZOOcwVkqDSbcZ+iBON8fMXPQJDf\nXBwifQ5EsNsqMsuu8q8pPBeqMefjCKHxHhLZyjcBFnmYJx2eA7Md3+dOLfyk4OcZ\nc5weg+64+e4jGs9fO5Mup72dShc9N1UpDLDXNim2ALK9qQ+xgi/4OrEYeZb566FK\n2sAm+sbZ8A/EvSsCZi/dCTGTgfSyEFgmURmsut9qiYyFV/7xsK6302F+WUvs4aM2\nhejk7Q6SE1j/yI/WtQkUTvV4CkhA5jXLBbr7CtS1mwKBgQD+2ju76Rn1BbZvXHye\nuS15/ipdnfaAPMfZrIHrzgzLXDzuf6aqJEUSmi05dG3BCUqDvG9Yz+nFaB/zpOPX\nytZqAbTP9qequHS+s+gIqsXTc6MB0s8J31gf/xpWDyznjeilUaNppbiYJrOT6Idn\nZK/Hg+dXUaFWBHMtt6niLfvuNwKBgQDgyXvQAcJYDgxOFkXPMqDZd5gZ2a9k7uN6\nOopcODNsZCcgCO7TwnbMJIKrLVZ/rUCpcZfjGybVByNCUxp8mgoJDi5I8WOnFBhN\nXC4nTTrvX9bBY8GwzyA4kmF4cdPZ5g3XAQJO5VemCmzep8xINu7C8txc8rnMF/nu\nEUoM91XnpwKBgHJSxY8TD0DaEi+8hm7RVPQvryOV09lM6r3b4+A664RiWTcH7mTO\npmmk3fqzHvUETPfxlOV7Rzv17LdoVYkdBbhCEbFkzWwJGN3faIxSxzGG4y3TOmsM\nVMTttAu8/QDWqPFYQP0IiVk/qzkDi5I3GZ9frWx/QueKUXzFsiCzThtbAoGAA2fq\nIVe1eyITW6eIvT/2IfVm75VVzAC2n6Z9bDJJzS2jTh/0hm7e3+75r+BK/DpCzY50\nD7PcncOy7BFYSGUJG+QEHYTSzrhGOf3YkS3hY7kfBuUdDTHGOjU1lt6aqCWNNiHE\nyC8/abuktKb0OG/kpD2Lyzi+SfJfDhVi+tlQiucCgYASePa5ZdSRIx4tmElkeene\nIRHGP5qkXsAv2ZiM9MRwhR7ozgRk5gshE1AV/rxsTr4NAdcIO/iXQdB7gLyngmL6\nH/pFCYJ129CHViXSRJzJNxsry5IVd325ktXlHSn1+jmkIIn1ElXN48YIgnEpizeT\n63qgekvejn4z5QUxQ3vHGA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "planetarypower@ulala-299523.iam.gserviceaccount.com",
+  "client_id": "109831178081128268168",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/planetarypower%40ulala-299523.iam.gserviceaccount.com"
+}

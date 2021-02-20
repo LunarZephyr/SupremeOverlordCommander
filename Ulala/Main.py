@@ -6,12 +6,10 @@ import os
 from dotenv import load_dotenv
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import os
 import pickle
 import re
 from Defs import *
 from datetime import datetime
-from tabulate import tabulate
 import sqlite3 as sql
 
 load_dotenv()
@@ -148,6 +146,8 @@ async def on_message(message):
                         VALUES (?, ?, ?, ?)''', (name.content, role.content, int(level.content), int(CP.content)))
                         SSconn.commit()
                         await message.channel.send("Character Successfully Added")
+                else:
+                    await message.channel.send("Please try again")
             else:
                 await message.channel.send('Class input was wrong. Remeber it is Case Sensitive. Please try again')
         else: 
@@ -205,6 +205,35 @@ async def on_message(message):
                         await message.channel.send("Character successfully updated")
                     except:
                         await message.channel.send("Character not found. If you are new, please use the !add command. If you are not, make sure your username was inputted properly")
+            else:
+                await message.channel.send("Please try again")
+        else:
+            await message.channel.send('Clan input was wrong. Please try again')
+
+    elif message.content == '!change username':
+        await message.channel.send("Which Clan? (PP or SS)")
+        clan = await client.wait_for("message", check = check)
+        if clan.content in clan_list:
+            await message.channel.send("What was your username? (Case sensitive)")
+            former_name = await client.wait_for("message", check = check)
+            await message.channel.send("What is your new username? (Case sensitive)")
+            new_name = await client.wait_for("message", check = check)
+            if clan.content == 'PP':
+                try:
+                    pc.execute('''UPDATE PP_members SET Username =? WHERE Username =?'''),
+                    (new_name.content, former_name.content, ))
+                    PPconn.commit()
+                    await message.channel.send("Name successfully changed")
+                except:
+                    await message.channel.send("Character not found. Make sure username was inputted properly")
+            elif clan.content == 'SS':
+                try:
+                    sc.execute('''UPDATE SS_members SET Username =? WHERE Username =?'''),
+                    (new_name.content, former_name.content, ))
+                    SSconn.commit()
+                    await message.channel.send("Name successfully changed")
+                except:
+                    await message.channel.send("Character not found. Make sure username was inputted properly")
         else:
             await message.channel.send('Clan input was wrong. Please try again')
 

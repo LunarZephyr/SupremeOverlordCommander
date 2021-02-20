@@ -144,6 +144,7 @@ def build_team_no_elite(file):
     h = 3
     d = 7
     while (atk_count > 1 or def_count > 0):
+        print(atk_count)
         temp_team = pd.DataFrame(columns = ['Username', 'Class', 'Level', 'CP'])
 
         dps_count = d
@@ -167,33 +168,30 @@ def build_team_no_elite(file):
             d = 1
             dps2 = dps.iloc[d]
 
-
         while class_check == dps.iloc[0]['Class'] and check == True:
-            if dps_count > 0:
+            if dps_count > 1:
                 dps_count -= 1
                 dps2 = dps.iloc[dps_count]
                 class_check = dps2['Class']
-            elif dps_count < 0:
+            else:
                 dps_count = d
                 dps2 = dps.iloc[dps_count]
                 check = False
 
         temp_team = temp_team.append(dps2, ignore_index = True)
 
+        dps = dps.drop([dps_count])
         dps = dps.iloc[1:]
-        dps = dps.drop([d])
         dps.reset_index(inplace = True, drop = True)
         d -= 2
 
         if atk_count > 1 and atk == True:
-            print('???')
             format = format.append({'Teams' : 'Vanguard ' + str(atk_count)},
             ignore_index = True)
             format = format.append(blank_rows, ignore_index = True)
             atk = False
             atk_count -= 1
         elif def_count > 0 and atk == False:
-            print('hello')
             atk = True
             format = format.append({'Teams' : 'Rear Guard ' + str(def_count)},
             ignore_index = True)

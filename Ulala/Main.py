@@ -24,7 +24,7 @@ pc = PPconn.cursor()
 sc = SSconn.cursor()
 
 clan_list = ['PP', 'SS']
-class_list = ['glad', 'war', 'sin', 'hunter', 'lock', 'mage', 'druid', 'shaman']
+role_list = ['glad', 'war', 'sin', 'hunter', 'lock', 'mage', 'druid', 'shaman']
 
 scope  = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('ulala.json', scope)
@@ -66,7 +66,6 @@ async def on_message(message):
             channel = client.get_channel(741354032890773595)
             await channel.purge(limit = 10)
             await channel.send(teams(PP_teams))
-            print(PP_teams)
 
     elif message.content == '!SSbuild':
         if message.author.guild_permissions.administrator == True:
@@ -113,11 +112,11 @@ async def on_message(message):
             channel = client.get_channel(741354032890773595)
             await channel.purge(limit = 10)
             await channel.send(teams(PP_teams))
-
+            
     elif message.content == '!SSnbuild':
         if message.author.guild_permissions.administrator == True:
             #SS_members = sheet('SS_members')
-            SS_members = pd.read_sql_query('SELECT * FROM PP_members;', SSconn)
+            SS_members = pd.read_sql_query('SELECT * FROM SS_members;', SSconn)
             SS_teams = build_team_no_elite(SS_members)
             channel = client.get_channel(741354523947302934)
             await channel.purge(limit = 10)
@@ -131,7 +130,7 @@ async def on_message(message):
             name = await client.wait_for("message", check = check) 
             await message.channel.send("What's your class? (glad, war, druid, shaman, sin, lock, hunter, mage)?")
             role = await client.wait_for("message", check = check)
-            if role.content in class_list:
+            if role.content in role_list:
                 await message.channel.send("What's your level?")
                 level = await client.wait_for("message", check = check)
                 await message.channel.send("What's your CP?")
@@ -197,7 +196,7 @@ async def on_message(message):
                         PPconn.commit()
                         await message.channel.send("Character successfully updated")
                     except:
-                        await message.channel.send("Character not found. If you are new, please use the !add command")
+                        await message.channel.send("Character not found. If you are new, please use the !add command. If you are not, make sure your username was inputted properly")
                 elif clan.content == 'SS':
                     try:
                         sc.execute('''UPDATE SS_members SET Level=?, CP=? WHERE Username=?''', 

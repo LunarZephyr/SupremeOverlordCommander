@@ -220,7 +220,7 @@ async def on_message(message):
             new_name = await client.wait_for("message", check = check)
             if clan.content == 'PP':
                 try:
-                    pc.execute('''UPDATE PP_members SET Username =? WHERE Username =?'''),
+                    pc.execute('''UPDATE PP_members SET Username =? WHERE Username =?''',
                     (new_name.content, former_name.content, ))
                     PPconn.commit()
                     await message.channel.send("Name successfully changed")
@@ -228,7 +228,7 @@ async def on_message(message):
                     await message.channel.send("Character not found. Make sure username was inputted properly")
             elif clan.content == 'SS':
                 try:
-                    sc.execute('''UPDATE SS_members SET Username =? WHERE Username =?'''),
+                    sc.execute('''UPDATE SS_members SET Username =? WHERE Username =?''',
                     (new_name.content, former_name.content, ))
                     SSconn.commit()
                     await message.channel.send("Name successfully changed")

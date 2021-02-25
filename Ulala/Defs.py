@@ -8,16 +8,8 @@ scope  = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name('ulala.json', scope)
 gss_client = gspread.authorize(creds)
 
-def linfit(x,y):
-    n=len(x)
-    sx=sum(x)
-    sy=sum(y)
-    sxx=sum(x**2)
-    sxy=sum(x*y)
-
-    a=(sx*sxy-sy*sxx)/(sx**2-n*sxx)
-    b=(sx*sy-n*sxy)/(sx**2-n*sxx)
-    return a,b
+def thread_function(name):
+    logging.info("Thread %s: starting", name)
 
 def sheet(sheet):
     try:
@@ -29,6 +21,10 @@ def sheet(sheet):
 def teams(team):
     team = team.replace(np.nan, '', regex = True)
     return "```" + team.to_string(index = False, header = True) + "```"
+
+def send_data(data):
+    data = data.drop(['Class', 'CP', 'Level'], axis = 1)
+    return "```" + data.to_string(index = False, header = True) + "```"
 
 def CP(Clan, CP, growth):
     top = CP[0:29]
@@ -117,6 +113,7 @@ def build_team(file):
         temp_team = temp_team.append(dps2, ignore_index = True)
         dps = dps.drop(dps.index[dps_count])
         dps = dps.iloc[1:]
+        dps.reset_index(inplace = True, drop = True)
 
         teams = teams.append(temp_team, ignore_index = True)
         teams = teams.append(pd.Series(), ignore_index = True)

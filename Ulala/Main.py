@@ -151,7 +151,7 @@ async def on_message(message):
                     if confirm.content == 'yes':
                         if clan.content.upper() == clan_list[0]:
                             pc.execute('''INSERT INTO PP_members (Username, Class, Level, CP, Updated)
-                            VALUES (?, ?, ?, ?, today)''', (name.content, role.content.lower().capitalize(), level, CP, today))
+                            VALUES (?, ?, ?, ?, ?)''', (name.content, role.content.lower().capitalize(), level, CP, today))
                             PPconn.commit()
                             await message.channel.send("Character Successfully Added")
                         else:

@@ -23,7 +23,7 @@ def teams(team):
     return "```" + team.to_string(index = False, header = True) + "```"
 
 def send_data(data):
-    data = data.drop(['Class', 'CP', 'Level'], axis = 1)
+    data = data.drop(['Class', 'Level'], axis = 1)
     return "```" + data.to_string(index = False, header = True) + "```"
 
 def CP(Clan, CP, growth):

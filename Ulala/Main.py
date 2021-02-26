@@ -134,20 +134,30 @@ async def on_message(message):
                 if role.content.lower().capitalize() in role_list:
                     await message.channel.send("What's your level?")
                     level = await client.wait_for("message", check = check)
+                    try:
+                        level = int(level.content)
+                    except:
+                        await message.channel.send('Level must be a number. Please try again')
+                        return
                     await message.channel.send("What's your CP?")
                     CP = await client.wait_for("message", check = check)
+                    try:
+                        CP = int(CP.content)
+                    except:
+                        await message.channel.send('CP must be a number. Please try again')
+                        return
                     await message.channel.send("Is this correct (yes/no):\n```Username: %s\nClass: %s\nLevel: %s\nCP: %s```" %(name.content, role.content, level.content, CP.content))
                     confirm = await client.wait_for("message", check = check)
                     if confirm.content == 'yes':
                         if clan.content.upper() == clan_list[0]:
                             pc.execute('''INSERT INTO PP_members (Username, Class, Level, CP, Updated)
-                            VALUES (?, ?, ?, ?, today)''', (name.content, role.content.lower().capitalize(), int(level.content), int(CP.content), today))
+                            VALUES (?, ?, ?, ?, today)''', (name.content, role.content.lower().capitalize(), level, CP, today))
                             PPconn.commit()
                             await message.channel.send("Character Successfully Added")
                         else:
                         #elif clan.content.upper() == clan_list[1]
                             sc.execute('''INSERT INTO SS_members (Username, Class, Level, CP, Updated)
-                            VALUES (?, ?, ?, ?, ?)''', (name.content, role.content.lower().capitalize(), int(level.content), int(CP.content), today))
+                            VALUES (?, ?, ?, ?, ?)''', (name.content, role.content.lower().capitalize(), level, CP, today))
                             SSconn.commit()
                             await message.channel.send("Character Successfully Added")
                     else:
@@ -186,32 +196,78 @@ async def on_message(message):
         await message.channel.send("Which Clan? (eg. PP)")
         clan = await client.wait_for("message", check = check)
         if clan.content.upper() in clan_list:
-            await message.channel.send("What's your username? (Case sensitive)")
+            await message.channel.send("What's your username?")
             name = await client.wait_for("message", check = check)
+            if clan.content.upper() == 'PP':
+                match = pc.execute('''SELECT Username FROM PP_members WHERE Username LIKE ?''', ('%'+name.content+'%', )).fetchall()
+                if match == []:
+                    await message.channel.send('No match found')
+                    return
+                elif len(match) == 1:
+                    name = match[0][0]
+                else:
+                    count = 0
+                    number = np.arange(1, len(match) + 1)
+                    match_list = []
+                    for name in match:
+                        match_list.append(name[0])
+                        try:
+                            string = '%s\n%d: %s' %(string, number[count], name[0])
+                        except:
+                            string = '%d: %s' %(number[count], name[0])
+                        count += 1
+                    await message.channel.send("Which character is yours?\n```%s```" %(string))
+                    value = await client.wait_for("message", check = check)
+                    name = match_list[int(value.content) - 1]
+            elif clan.content.upper() == 'SS':
+                match = sc.execute('''SELECT Username FROM SS_members WHERE Username LIKE ?''', ('%'+name.content+'%', )).fetchall()
+                if match == []:
+                    await message.channel.send('No match found')
+                    return
+                elif len(match) == 1:
+                    name = match[0][0]
+                else:
+                    count = 0
+                    number = np.arange(1, len(match) + 1)
+                    match_list = []
+                    for name in match:
+                        match_list.append(name[0])
+                        try:
+                            string = '%s\n%d: %s' %(string, number[count], name[0])
+                        except:
+                            string = '%d: %s' %(number[count], name[0])
+                        count += 1
+                    await message.channel.send("Which character is yours?\n```%s```" %(string))
+                    value = await client.wait_for("message", check = check)
+                    name = match_list[int(value.content) - 1]                         
             await message.channel.send("What's your level?")
             level = await client.wait_for("message", check = check)
+            try:
+                level = int(level.content)
+            except:
+                await message.channel.send('Level must be a number. Please try again')
+                return
             await message.channel.send("What's your CP?")
             CP = await client.wait_for("message", check = check)
-            await message.channel.send("Is this correct (yes/no):\n```Username: %s\nLevel: %s\nCP: %s```" %(name.content, level.content, CP.content))
+            try:
+                CP = int(CP.content)
+            except:
+                await message.channel.send('CP must be a number. Please try again')
+                return
+            await message.channel.send("Is this correct (yes/no):\n```Username: %s\nLevel: %s\nCP: %s```" %(name, level, CP))
             confirm = await client.wait_for("message", check = check)
-            if confirm.content.lower() == 'yes':
+            if confirm.content.lower().startswith('y'):
                 if clan.content.upper() == 'PP':
-                    try: 
-                        pc.execute('''UPDATE PP_members SET Level=?, CP=?, Updated =? WHERE Username=?''',
-                        (int(level.content), int(CP.content), today, name.content, ))
-                        PPconn.commit()
-                        await message.channel.send("Character successfully updated")
-                    except:
-                        await message.channel.send("Character not found. If you are new, please use the !add command. If you are not, make sure your username was inputted properly")
+                    pc.execute('''UPDATE PP_members SET Level=?, CP=?, Updated =? WHERE Username=?''',
+                    (level, CP, today, name, ))
+                    PPconn.commit()
+                    await message.channel.send("Character successfully updated")
                 else:
                 #elif clan.content.upper() == 'SS':
-                    try:
-                        sc.execute('''UPDATE SS_members SET Level=?, CP=?, Updated =? WHERE Username=?''', 
-                        (int(level.content), int(CP.content), today, name.content, ))
-                        SSconn.commit()
-                        await message.channel.send("Character successfully updated")
-                    except:
-                        await message.channel.send("Character not found. If you are new, please use the !add command. If you are not, make sure your username was inputted properly")
+                    sc.execute('''UPDATE SS_members SET Level=?, CP=?, Updated =? WHERE Username=?''', 
+                    (level, CP, today, name, ))
+                    SSconn.commit()
+                    await message.channel.send("Character successfully updated")
             else:
                 await message.channel.send("Please try again")
         else:
@@ -221,38 +277,78 @@ async def on_message(message):
         await message.channel.send("Which Clan? (PP or SS)")
         clan = await client.wait_for("message", check = check)
         if clan.content.upper() in clan_list:
-            await message.channel.send("What was your username? (Case sensitive)")
+            await message.channel.send("What was your previuos username? (Case sensitive)")
             former_name = await client.wait_for("message", check = check)
             await message.channel.send("What is your new username? (Case sensitive)")
             new_name = await client.wait_for("message", check = check)
             if clan.content.upper() == 'PP':
-                try:
-                    pc.execute('''UPDATE PP_members SET Username =? WHERE Username =?''',
-                    (new_name.content, former_name.content, ))
-                    PPconn.commit()
-                    await message.channel.send("Name successfully changed")
-                except:
-                    await message.channel.send("Character not found. Make sure username was inputted properly")
+                match = pc.execute('''SELECT Username FROM PP_members WHERE Username LIKE ?''', ('%'+new_name.content+'%', )).fetchall()
+                if match == []:
+                    await message.channel.send('No match found')
+                    return
+                elif len(match) == 1:
+                    new_name = match[0][0]
+                else:
+                    count = 0
+                    number = np.arange(1, len(match) + 1)
+                    match_list = []
+                    for name in match:
+                        match_list.append(name[0])
+                        try:
+                            string = '%s\n%d: %s' %(string, number[count], name[0])
+                        except:
+                            string = '%d: %s' %(number[count], name[0])
+                        count += 1
+                    await message.channel.send("Which character is yours?\n```%s```" %(string))
+                    value = await client.wait_for("message", check = check)
+                    new_name = match_list[int(value.content) - 1]
+                pc.execute('''UPDATE PP_members SET Username =? WHERE Username =?''',
+                (new_name, former_name.content, ))
+                PPconn.commit()
+                await message.channel.send("Name successfully changed")
             else:
             #elif clan.content.upper() == 'SS':
-                try:
-                    sc.execute('''UPDATE SS_members SET Username =? WHERE Username =?''',
-                    (new_name.content, former_name.content, ))
-                    SSconn.commit()
-                    await message.channel.send("Name successfully changed")
-                except:
-                    await message.channel.send("Character not found. Make sure username was inputted properly")
+                match = sc.execute('''SELECT Username FROM SS_members WHERE Username LIKE ?''', ('%'+new_name.content+'%', )).fetchall()
+                if match == []:
+                    await message.channel.send('No match found')
+                    return
+                elif len(match) == 1:
+                    new_name = match[0][0]
+                else:
+                    count = 0
+                    number = np.arange(1, len(match) + 1)
+                    match_list = []
+                    for name in match:
+                        match_list.append(name[0])
+                        try:
+                            string = '%s\n%d: %s' %(string, number[count], name[0])
+                        except:
+                            string = '%d: %s' %(number[count], name[0])
+                        count += 1
+                    await message.channel.send("Which character is yours?\n```%s```" %(string))
+                    value = await client.wait_for("message", check = check)
+                    new_name = match_list[int(value.content) - 1]
+                sc.execute('''UPDATE SS_members SET Username =? WHERE Username =?''',
+                (new_name, former_name.content, ))
+                SSconn.commit()
+                await message.channel.send("Name successfully changed")
         else:
             await message.channel.send('Clan input was wrong. Please try again')
 
-    #elif message.content.startswith('!status'):
-        #clan = message.content.split()
-        #if clan[1].upper() == clan_list[0] or clan[1].lower() == 'all':
-            #PP_members = pd.read_sql_query('SELECT * FROM PP_members;', PPconn)
-            #await message.channel.send(send_data(PP_members))
-        #if clan[1].upper() == clan_list[1] or clan[1].lower() == 'all':
-            #SS_members = pd.read_sql_query('SELECT * FROM SS_members;', SSconn)
-            #await message.channel.send(send_data(SS_members))
+    elif message.content.startswith('!status'):
+        clan = message.content.split()
+        if clan[1].upper() == clan_list[0] or clan[1].lower() == 'all':
+            PP_members = pd.read_sql_query('SELECT * FROM PP_members;', PPconn)
+            tank, healer, dps = filter_class(PP_members)
+            await message.channel.send('tanks\n' + send_data(tank))
+            await message.channel.send('healers\n' + send_data(healer))
+            await message.channel.send('dps\n' + send_data(dps))
+        if clan[1].upper() == clan_list[1] or clan[1].lower() == 'all':
+            SS_members = pd.read_sql_query('SELECT * FROM SS_members;', SSconn)
+            tank, healer, dps = filter_class(SS_members)
+            await message.channel.send('tanks\n' + send_data(tank))
+            await message.channel.send('healers\n' + send_data(healer))
+            await message.channel.send('dps]n' + send_data(dps))
             
     elif message.content == '!member':
         if message.author.guild_permissions.administrator == True:

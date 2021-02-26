@@ -146,7 +146,7 @@ async def on_message(message):
                     except:
                         await message.channel.send('CP must be a number. Please try again')
                         return
-                    await message.channel.send("Is this correct (yes/no):\n```Username: %s\nClass: %s\nLevel: %s\nCP: %s```" %(name.content, role.content, level.content, CP.content))
+                    await message.channel.send("Is this correct (yes/no):\n```Username: %s\nClass: %s\nLevel: %s\nCP: %s```" %(name.content, role.content, level, CP))
                     confirm = await client.wait_for("message", check = check)
                     if confirm.content == 'yes':
                         if clan.content.upper() == clan_list[0]:

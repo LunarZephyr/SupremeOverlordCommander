@@ -49,19 +49,16 @@ async def on_message(message):
         registry = gss_client.open('Discord Registry').sheet1
         remove = [e[0:5] for e in registry.get_all_values()]
         registry = pd.DataFrame(remove[3:], columns = remove[2])
+        find = message.content.split()[1]
+        for i in range(len(registry.columns) - 1):
+            col_name = 'Account ' + str(i + 1)
+            search = registry[registry[col_name] == find]
+            if not search.empty:
+                break
         try:
-            find = message.content.split()[1]
-            for i in range(len(registry.columns) - 1):
-                col_name = 'Account ' + str(i + 1)
-                search = registry[registry[col_name] == find]
-                if not search.empty:
-                    break
-            try:
-                await message.channel.send(search['Discord Name'].values[0])
-            except:
-                message.channel.send('User unknown')
+            await message.channel.send(search['Discord Name'].values[0])
         except:
-            await message.channel.send('Character not found')
+            await message.channel.send('User unknown')
 
     elif message.content.startswith('!build'):
         if message.author.guild_permissions.administrator == True:
@@ -348,7 +345,7 @@ async def on_message(message):
             tank, healer, dps = filter_class(SS_members)
             await message.channel.send('tanks\n' + send_data(tank))
             await message.channel.send('healers\n' + send_data(healer))
-            await message.channel.send('dps]n' + send_data(dps))
+            await message.channel.send('dps\n' + send_data(dps))
             
     elif message.content == '!member':
         if message.author.guild_permissions.administrator == True:

@@ -8,9 +8,6 @@ scope  = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name('ulala.json', scope)
 gss_client = gspread.authorize(creds)
 
-def thread_function(name):
-    logging.info("Thread %s: starting", name)
-
 def sheet(sheet):
     try:
         data = gss_client.open(sheet).sheet1
@@ -26,7 +23,7 @@ def send_data(data):
     data = data.drop(['Class', 'Level'], axis = 1)
     return "```" + data.to_string(index = False, header = True) + "```"
 
-def CP(Clan, CP, growth):
+def CP_return(Clan, CP, growth):
     top = CP[0:29]
     return ("```\n\n\n%s's mean is %d CP\n%s's top 30 member CP average is %d CP\n%s's grew %d CP\n%s's total power is %d CP```"
     %(Clan, CP.mean(), Clan, top.mean(), Clan, growth, Clan, CP.sum()))
@@ -37,17 +34,27 @@ def class_list(tank, healer, dps):
 def classes(classes, table):
     return(classes + ": ```" + table.to_string(index = False, header = True) + "```\n")
 
+def all_names(match):
+    count = 0
+    number = np.arange(1, len(match) + 1)
+    match_list = []
+    for name in match:
+        match_list.append(name[0])
+        try:
+            string = '%s\n%d: %s' %(string, number[count], name[0])
+        except:
+            string = '%d: %s' %(number[count], name[0])
+        count += 1
+    return match_list, string
+
 def filter_class(file):
     tanks = ['Glad', 'War']
     healers = ['Druid', 'Shaman']
     dps = ['Lock', 'Mage', 'Sin', 'Hunter']
-
     file = file.sort_values(by = ['CP'], ascending = False)
-
     tank = file[file['Class'].isin(tanks)]
     healer = file[file['Class'].isin(healers)]
     dps = file[file['Class'].isin(dps)]
-
     return tank, healer, dps
 
 def build_team(file):

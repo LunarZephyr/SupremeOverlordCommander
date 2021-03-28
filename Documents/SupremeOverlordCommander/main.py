@@ -133,8 +133,8 @@ async def change(message):
     if registration_check(message, bot):
         await change_username(message, bot)
 
-@bot.command()
-async def shutdown(message):
-    await message.bot.logout()
+#@bot.command()
+#async def shutdown(message):
+#    await message.bot.logout()
 
 bot.run(TOKEN)

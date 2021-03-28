@@ -8,7 +8,7 @@ from defs import *
 from async_defs import *
 import discord
 
-conn = psql.connect("dbname = maindb user = fomalhaut password = fomalumn")
+conn = psql.connect("host = localhost dbname = maindb user = fomalhaut password = fomalumn")
 c = conn.cursor()
 
 role_list = ['Glad', 'War', 'Sin', 'Hunter', 'Lock', 'Mage', 'Druid', 'Shaman']

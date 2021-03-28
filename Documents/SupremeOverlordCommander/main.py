@@ -21,7 +21,7 @@ TOKEN = os.getenv('API_KEY')
 bot = commands.Bot(command_prefix = '!', intents = intents)
 
 #PSQL connector
-conn = psql.connect("dbname = maindb user = fomalhaut password = fomalumn")
+conn = psql.connect("host = localhost dbname = maindb user = fomalhaut password = fomalumn")
 c = conn.cursor()
 
 role_list = ['Glad', 'War', 'Sin', 'Hunter', 'Lock', 'Mage', 'Druid', 'Shaman']

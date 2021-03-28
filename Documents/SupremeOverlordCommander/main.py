@@ -21,11 +21,8 @@ TOKEN = os.getenv('API_KEY')
 bot = commands.Bot(command_prefix = '!', intents = intents)
 
 #PSQL connector
-conn = psql.connect("dbname = Ulala user = admin password = fomalumn")
+conn = psql.connect("dbname = maindb user = fomalhaut password = fomalumn")
 c = conn.cursor()
-
-testconn = sql.connect('SS_members.db')
-tc = testconn.cursor()
 
 role_list = ['Glad', 'War', 'Sin', 'Hunter', 'Lock', 'Mage', 'Druid', 'Shaman']
 

@@ -4,16 +4,12 @@ import pandas as pd
 import numpy as np
 import os
 from dotenv import load_dotenv
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 import pickle
 import re
 from defs import *
 from async_defs import *
 from psql_defs import *
 from datetime import datetime
-import time
-import schedule
 import sqlite3 as sql
 import psycopg2 as psql
 from discord.ext import tasks, commands

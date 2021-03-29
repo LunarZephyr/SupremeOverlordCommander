@@ -68,7 +68,7 @@ async def db_add_member(message, bot):
         await message.send('Please try again')
         return
     try:
-        c.execute('''INSERT INTO Members (Clan_Name, Username, Class, Level, power) VALUES (%s, %s, %s, %s, %s)''', (clan, username, role, level, power))
+        c.execute('''INSERT INTO Members (Clan_Name, Username, Class, Level, power, Updated) VALUES (%s, %s, %s, %s, %s)''', (clan, username, role, level, power, today))
         conn.commit()
         await message.send('Character successfully added')
         return

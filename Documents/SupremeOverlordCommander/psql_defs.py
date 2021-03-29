@@ -74,7 +74,7 @@ async def db_add_member(message, bot):
         return
     except:
         conn.rollback()
-        await message.send('Character was not able to be added. A likely reason is that a character with that username already exists in the database')
+        await message.send('Character was not able to be added')
 
 async def db_delete_members(message, bot):
     try:

@@ -19,6 +19,18 @@ def registration_check(message, bot):
         return True
     else:
         return False
+    
+def deregister(before, after):
+    if len(after.roles) < len(before.roles):
+        for role in before.roles:
+            if role not in after.roles:
+                oldRole = role
+        if oldRole.id == 824766740159266826:
+            try:
+                c.execute('''UPDATE Servers SET Commands = (%s) WHERE Representative = (%s)''', ('no', before.id))
+                conn.commit()
+            except:
+                conn.rollback()
 
 async def search_clan(message, bot):
     abv = await get_clan_abrv(message, bot)

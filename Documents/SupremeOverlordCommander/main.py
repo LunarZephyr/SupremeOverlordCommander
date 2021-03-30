@@ -30,6 +30,10 @@ role_list = ['Glad', 'War', 'Sin', 'Hunter', 'Lock', 'Mage', 'Druid', 'Shaman']
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
     await bot.change_presence(status = discord.Status.online, activity = discord.Game("Not Fit To Rule"), afk = False)
+    
+@bot.event
+async def on_member_update(before, after):
+    deregister(before, after)
 
 @bot.event
 async def on_guild_join(guild):
